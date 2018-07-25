@@ -1,0 +1,56 @@
+{% extends 'itemsdb/base.html' %}
+
+{% block content %}
+    <div class="check">
+        <h4>Check GET Active Items</h4>
+        <div class="button hello">
+            <button class="btn btn-primary" id="get_button">GET</button>
+        </div>
+        <div class="data" id="get_data"></div>
+    </div>
+    <hr/>
+    <div class="check">
+        <h4>Check POST Category</h4>
+        <div class="form-group">
+            <label for="categories">
+                <select class="form-control" id="categories">
+                    {% for category in categories %}
+                        <option value="{{ category.slug }}" {% if forloop.counter == 1 %}selected{% endif %}>
+                            {{ category.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </label>
+        </div>
+        <div class="button">
+            <button class="btn btn-primary" id="post_button">POST</button>
+        </div>
+        <div class="data" id="post_data"></div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+
+        // jQuery GET
+        $('#get_button').click(function () {
+            $.get("/api/items/active/", function (data) {
+                $('#get_data').hide().html(JSON.stringify(data)).fadeIn();
+            })
+        });
+
+        // jQuery POST
+        let postData = {
+            'category': $('#categories option:selected').val(),
+            'csrfmiddlewaretoken': '{{ csrf_token }}'
+        };
+        $('#categories').on('change', function () {
+            postData.category = this.value;
+        });
+        $('#post_button').click(function () {
+            $.post('api/items/active/', postData, function (data) {
+                $('#post_data').html(JSON.stringify(data));
+            })
+        });
+    </script>
+{% endblock %}

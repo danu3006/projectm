@@ -1,0 +1,11 @@
+body {
+    padding: 20px;
+}
+
+.data {
+    padding: 20px;
+    width: 700px;
+    background: #FAFAFA;
+    margin-top: 20px;
+    border: 1px solid #EEE !important;
+}
