@@ -32,7 +32,7 @@ class Item(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = ['code', 'name']
+        unique_together = ['code', 'name', 'category']
 
     def __str__(self):
         return self.name
